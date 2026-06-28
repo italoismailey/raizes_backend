@@ -1,28 +1,30 @@
-# 🍽️ Raízes do Nordeste — API Back-End
+# Raízes do Nordeste — API: Trilha Back-End
 
-> Projeto Multidisciplinar — Atividade Prática Back-End  
+> Projeto Multidisciplinar — Atividade Prática
 > **Autor:** Italo Ismailey G Durante | **RU:** 4471904  
 > **Instituição:** UNINTER — 2026  
 
 ---
 
-## 📋 Sobre o Projeto
+## Sobre o Projeto
 
-Este projeto é a implementação do back-end para a rede de lanchonetes **Raízes do Nordeste**, desenvolvido como parte da Atividade Prática da disciplina de Projeto Back-End da UNINTER.
+Este projeto é a implementação do back-end para a rede de lanchonetes **Raízes do Nordeste**, desenvolvido como parte da Atividade Prática da disciplina de Projeto Back-End da UNINTER, dentro do curso de Analise e Desenvolvimento de Sistemas.
 
 A solução é uma **API REST** que gerencia pedidos, cardápio, estoque, programa de fidelidade e pagamentos (mock), suportando múltiplos canais de atendimento: App, Totem, Balcão, Pickup e Web.
 
+Foi elaoborada como uma ponte de conclusão do meio acadêmico e o ambiente de trabalho, visonando a atuação no meio profissional.
+
 ---
 
-## 🧠 Decisões Técnicas
+## Decisões Técnicas
 
 Durante o desenvolvimento precisei tomar algumas decisões de tecnologia e arquitetura que julguei importantes registrar:
 
 **Por que Python?**  
-Já tenho familiaridade com a linguagem, o que me permitiu focar na lógica de negócio em vez de lutar com a sintaxe.
+Já tenho familiaridade com a linguagem, o que me permitiu focar na lógica de negócio em vez de problematizar sintaxe de linguagem.
 
 **Por que FastAPI?**  
-Gera documentação Swagger/OpenAPI automaticamente — o que o roteiro exige como evidência técnica. Além disso, tem validação de dados nativa via Pydantic.
+Gera documentação Swagger/OpenAPI automaticamente — o que o roteiro exige como evidência técnica. Além disso, tem validação de dados nativa via Pydantic. Atende perfeitamente ao requisitado.
 
 **Por que SQLite?**  
 Para simplificar o ambiente de desenvolvimento local. Não é necessário instalar nenhum servidor de banco de dados. Em produção, bastaria trocar a `DATABASE_URL` no `.env` para PostgreSQL — o código não mudaria nada.
@@ -31,11 +33,11 @@ Para simplificar o ambiente de desenvolvimento local. Não é necessário instal
 Separei o projeto em `domain`, `application`, `infrastructure` e `api` para manter cada responsabilidade no seu lugar. Isso facilita manutenção e testes isolados.
 
 **Por que um mock de pagamento?**  
-O roteiro não exige integração real com gateway. O mock simula aprovação (90%) e recusa (10%), o suficiente para validar o fluxo completo do pedido.
+O roteiro não exige integração real com gateway. O mock simula aprovação e a recusa, o suficiente para validar o fluxo completo do pedido.
 
 ---
 
-## 🗂️ Estrutura do Projeto
+## Estrutura do Projeto
 
 ```
 raizes_backend/
@@ -70,7 +72,7 @@ raizes_backend/
 
 ---
 
-## ⚙️ Como Rodar Localmente
+## Como Rodar Localmente
 
 ### Pré-requisitos
 - Python 3.11+
@@ -79,8 +81,8 @@ raizes_backend/
 ### 1. Criar e ativar ambiente virtual
 
 ```bash
-conda create -n raizesvs1 python=3.11 -y
-conda activate raizesvs1
+conda create -n raizes python=3.11 -y
+conda activate raizes
 ```
 
 ### 2. Instalar dependências
@@ -122,7 +124,7 @@ Acesse a documentação interativa: **http://localhost:8000/docs**
 
 ---
 
-## 🔗 Endpoints Disponíveis
+## Endpoints Disponíveis
 
 ### Auth
 | Método | Rota | Descrição |
@@ -178,7 +180,7 @@ Acesse a documentação interativa: **http://localhost:8000/docs**
 
 ---
 
-## 🔐 Segurança e LGPD
+## Segurança e LGPD
 
 - **Senhas** armazenadas com hash bcrypt — nunca em texto puro
 - **JWT** com expiração de 60 minutos (configurável no `.env`)
@@ -188,7 +190,7 @@ Acesse a documentação interativa: **http://localhost:8000/docs**
 
 ---
 
-## 🧪 Testes Automatizados
+## Testes Automatizados
 
 O projeto possui **22 testes automatizados** cobrindo cenários positivos e negativos.
 
@@ -256,7 +258,7 @@ tests/test_api.py::test_filtro_com_canal_invalido            PASSED
 
 ---
 
-## 🚀 Fluxo Crítico — Passo a Passo
+## Fluxo Crítico — Passo a Passo
 
 Este é o fluxo principal exigido pelo roteiro, testável diretamente no Swagger (`/docs`):
 
@@ -271,7 +273,7 @@ Este é o fluxo principal exigido pelo roteiro, testável diretamente no Swagger
 
 ---
 
-## 💡 O que eu adicionaria com mais tempo
+## O que eu adicionaria com tempo
 
 Algumas melhorias que ficaram como proposta futura:
 
@@ -284,28 +286,28 @@ Algumas melhorias que ficaram como proposta futura:
 
 ---
 
-## 📁 Estrutura de Dados (Resumo do DER)
+## Estrutura de Dados (Resumo do DER)
 
 ```
 usuarios ──────────────────────────────────────────────────────────┐
     │ id, nome, email, senha_hash, perfil, ativo                   │
-    │ consentimento_fidelidade, consentimento_marketing             │
-    │                                                               │
+    │ consentimento_fidelidade, consentimento_marketing            │
+    │                                                              │
     ├── pedidos (cliente_id → usuarios.id)                         │
     │       │ id, unidade_id, canal_pedido, status, total          │
-    │       │                                                       │
+    │       │                                                      │
     │       ├── itens_pedido (pedido_id → pedidos.id)              │
-    │       │       id, produto_id, quantidade, preco_unitario      │
-    │       │                                                       │
+    │       │       id, produto_id, quantidade, preco_unitario     │
+    │       │                                                      │
     │       └── pagamentos (pedido_id → pedidos.id)                │
-    │               id, forma_pagamento, status, gateway_ref        │
-    │                                                               │
+    │               id, forma_pagamento, status, gateway_ref       │
+    │                                                              │
     ├── pontos_fidelidade (usuario_id → usuarios.id)               │
-    │       id, saldo                                               │
-    │                                                               │
+    │       id, saldo                                              │
+    │                                                              │
     └── historico_fidelidade (usuario_id → usuarios.id)            │
-            id, tipo, pontos, descricao                             │
-                                                                    │
+            id, tipo, pontos, descricao                            │
+                                                                   │
 unidades ──────────────────────────────────────────────────────────┘
     │ id, nome, cidade, estado, endereco, ativa
     │
