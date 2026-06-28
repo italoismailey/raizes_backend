@@ -1,6 +1,6 @@
 """
 Testes automatizados — Raízes do Nordeste API
-A gente cria e popula o banco temporário do SQLite antes de rodar os testes
+Aqui a gente cria e popula o banco temporário do SQLite antes de rodar os testes
 para validar os fluxos de auth, usuários, pedidos, estoque e fidelidade.
 Autor: Italo Ismailey G Durante | RU: 4471904 | UNINTER 2026
 """
@@ -15,7 +15,7 @@ from app.infrastructure.database.session import Base, get_db
 from app.domain.models.models import PontosFidelidade, PerfilUsuario, Usuario
 from app.infrastructure.security import hash_senha
 
-# --- BANCO DE TESTES ---
+# BD TESTES
 TEST_DB_URL = "sqlite:///./test_raizes.db"
 engine_test = create_engine(TEST_DB_URL, connect_args={"check_same_thread": False})
 TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine_test)
@@ -44,7 +44,7 @@ def _popula_dados_basicos():
 
     db = TestingSessionLocal()
     try:
-        # Usuários base
+        # Usuário base
         admin = Usuario(nome="Admin Teste", email="admin@raizes.com", senha_hash=hash_senha("Admin@123"), perfil=PerfilUsuario.ADMIN)
         cliente = Usuario(nome="Cliente Teste", email="cliente@teste.com", senha_hash=hash_senha("Cliente@123"), perfil=PerfilUsuario.CLIENTE, consentimento_fidelidade=True)
         atendente = Usuario(nome="Atendente Teste", email="atendente@teste.com", senha_hash=hash_senha("Atend@123"), perfil=PerfilUsuario.ATENDENTE)
@@ -65,7 +65,7 @@ def _popula_dados_basicos():
         db.add(CardapioItem(unidade_id=uni.id, produto_id=tapioca.id, disponivel=True))
         db.add(CardapioItem(unidade_id=uni.id, produto_id=suco.id, disponivel=True))
 
-        # Carga de estoque e fidelidade ativa
+        # Carga de estoque e ponto de fidelidade
         db.add(EstoqueMovimento(unidade_id=uni.id, produto_id=tapioca.id, tipo=TipoMovimentoEstoque.ENTRADA, quantidade=50, motivo="Inicial"))
         db.add(EstoqueMovimento(unidade_id=uni.id, produto_id=suco.id, tipo=TipoMovimentoEstoque.ENTRADA, quantidade=50, motivo="Inicial"))
         db.add(PontosFidelidade(usuario_id=cliente.id, saldo=100))
@@ -74,7 +74,7 @@ def _popula_dados_basicos():
         db.close()
 
 
-# --- HELPERS (Utilitários que limpam o código dos testes) ---
+# Mágica acontecendo, uffa
 client = TestClient(app)
 
 def get_auth_headers(perfil="admin"):
@@ -100,7 +100,7 @@ def cria_um_pedido(headers=None):
     return r.json()
 
 
-# ====================== SESSÃO DE TESTES ======================
+# Aplicando os Testes
 
 def test_login_com_sucesso():
     r = client.post("/auth/login", json={"email": "admin@raizes.com", "senha": "Admin@123"})
