@@ -17,7 +17,7 @@ programa de fidelidade e integração simulada com gateway de pagamento.
 
 Desenvolvido como parte da Atividade Prática da Trilha Back-End — UNINTER 2026.""",
     contact={
-        "name": "Italo Ismailey G Durante",
+        "name": "Italo Ismailey",
         "email": "italoismailey@gmail.com",
         "url": "https://github.com/italoismailey/raizes_backend"
     },
