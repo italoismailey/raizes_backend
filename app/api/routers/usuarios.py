@@ -1,11 +1,6 @@
 """
 Router: /usuarios
-GET    /usuarios/me          — perfil do usuário logado
-GET    /usuarios             — lista todos (ADMIN/GERENTE)
-POST   /usuarios             — cadastro (público para CLIENTE, restrito para outros perfis)
-GET    /usuarios/{id}        — detalhe (ADMIN/GERENTE ou próprio usuário)
-PUT    /usuarios/{id}        — atualizar (ADMIN ou próprio usuário)
-DELETE /usuarios/{id}        — desativar (ADMIN)
+Gerencia cadastro, perfil e listagem de usuários com controle de acesso por perfil.
 """
 
 from fastapi import APIRouter, Depends, HTTPException, status
@@ -23,6 +18,7 @@ router = APIRouter()
 
 @router.get("/me", response_model=UsuarioOut, summary="Meu perfil")
 def meu_perfil(usuario=Depends(get_usuario_atual)):
+    """Retorna os dados do usuário logado."""
     return usuario
 
 
@@ -35,11 +31,16 @@ def listar_usuarios(
     db: Session = Depends(get_db),
     _=Depends(exigir_perfil(PerfilUsuario.ADMIN, PerfilUsuario.GERENTE)),
 ):
+    """Lista todos os usuários - apenas perfis elevados."""
     return db.query(Usuario).order_by(Usuario.id).all()
 
 
 @router.post("", response_model=UsuarioOut, status_code=201, summary="Cadastrar usuário")
 def criar_usuario(dados: UsuarioCreate, db: Session = Depends(get_db)):
+    """
+    Cadastra um novo usuário.
+    Registra explicitamente o consentimento LGPD para fidelidade e marketing.
+    """
     if db.query(Usuario).filter(Usuario.email == dados.email).first():
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
@@ -51,13 +52,15 @@ def criar_usuario(dados: UsuarioCreate, db: Session = Depends(get_db)):
         email=dados.email,
         senha_hash=hash_senha(dados.senha),
         perfil=dados.perfil,
+        # LGPD - Consentimentos explícitos
         consentimento_fidelidade=dados.consentimento_fidelidade,
         consentimento_marketing=dados.consentimento_marketing,
     )
+
     db.add(usuario)
     db.flush()
 
-    # Cria saldo de fidelidade automaticamente para CLIENTEs
+    # Cria saldo inicial de fidelidade para clientes
     if dados.perfil == PerfilUsuario.CLIENTE:
         db.add(PontosFidelidade(usuario_id=usuario.id, saldo=0))
 
@@ -72,13 +75,14 @@ def detalhe_usuario(
     db: Session = Depends(get_db),
     atual=Depends(get_usuario_atual),
 ):
-    # Permite ao próprio usuário ver seu perfil; admins/gerentes veem qualquer um
+    """Permite ver o próprio perfil ou qualquer um se for ADMIN/GERENTE."""
     if atual.id != usuario_id and atual.perfil not in (PerfilUsuario.ADMIN, PerfilUsuario.GERENTE):
         raise HTTPException(status_code=403, detail={"error": "PERMISSAO_NEGADA"})
 
     usuario = db.query(Usuario).filter(Usuario.id == usuario_id).first()
     if not usuario:
         raise HTTPException(status_code=404, detail={"error": "USUARIO_NAO_ENCONTRADO"})
+
     return usuario
 
 
@@ -89,6 +93,7 @@ def atualizar_usuario(
     db: Session = Depends(get_db),
     atual=Depends(get_usuario_atual),
 ):
+    """Atualiza dados do usuário (próprio ou ADMIN)."""
     if atual.id != usuario_id and atual.perfil != PerfilUsuario.ADMIN:
         raise HTTPException(status_code=403, detail={"error": "PERMISSAO_NEGADA"})
 
@@ -110,8 +115,10 @@ def desativar_usuario(
     db: Session = Depends(get_db),
     _=Depends(exigir_perfil(PerfilUsuario.ADMIN)),
 ):
+    """Desativa um usuário (soft delete)."""
     usuario = db.query(Usuario).filter(Usuario.id == usuario_id).first()
     if not usuario:
         raise HTTPException(status_code=404, detail={"error": "USUARIO_NAO_ENCONTRADO"})
+
     usuario.ativo = False
     db.commit()
