@@ -261,7 +261,7 @@ tests/test_api.py::test_filtro_com_canal_invalido            PASSED
 
 ---
 
-## Fluxo Crítico — Passo a Passo
+## Fluxo Crítico
 
 Este é o fluxo principal exigido pelo roteiro, testável diretamente no Swagger (`/docs`):
 
@@ -276,16 +276,17 @@ Este é o fluxo principal exigido pelo roteiro, testável diretamente no Swagger
 
 ---
 
-## O que eu adicionaria com tempo
+## Upgrades
+Algumas melhorias que ficam como proposta futura:
 
-Algumas melhorias que ficaram como proposta futura:
-
-- **Autenticação social** (Google/redes sociais) via OAuth2
-- **Painel administrativo web** para gerentes acompanharem pedidos em tempo real
-- **Relatórios de vendas por unidade** com filtros por período e categoria
-- **Envio de e-mail** de confirmação de pedido e notificação de status
-- **Integração real com gateway de pagamento** (ex.: Stripe ou PagSeguro)
-- **Deploy em nuvem** (Railway ou Render) para o Swagger ficar acessível publicamente
+- Autenticação social (Google/redes sociais) via OAuth2
+- Painel administrativo web para gerentes acompanharem pedidos em tempo real
+- Relatórios de vendas por unidade** com filtros por período e categoria
+- Envio de e-mail** de confirmação de pedido e notificação de status
+- Integração real com gateway de pagamento** (ex.: Stripe ou PagSeguro)
+- Implementação de notificações por e-mail ao mudar status do pedido.
+- Relatórios gerenciais para a matriz (vendas por unidade e por canal).
+- Deploy em nuvem (Railway ou Render) para o Swagger ficar público.
 
 ---
 
