@@ -16,7 +16,7 @@ Foi elaoborada como uma ponte de conclusão do meio acadêmico e o ambiente de t
 
 ---
 
-## Decisões Técnicas
+## Decisões Estratégicas
 
 Durante o desenvolvimento precisei tomar algumas decisões de tecnologia e arquitetura que julguei importantes registrar:
 
@@ -34,6 +34,9 @@ Separei o projeto em `domain`, `application`, `infrastructure` e `api` para mant
 
 **Por que um mock de pagamento?**  
 O roteiro não exige integração real com gateway. O mock simula aprovação e a recusa, o suficiente para validar o fluxo completo do pedido.
+
+**Testes**
+Optei por testes de integração com Pytest para validar o fluxo completo do pedido, incluindo cenários negativos (estoque insuficiente, permissão negada, etc.)
 
 ---
 
