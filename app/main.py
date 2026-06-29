@@ -1,5 +1,9 @@
 """
-Ponto de entrada da aplicação — Raízes do Nordeste API
+Raízes do Nordeste - API Back-end
+Versão final - UNINTER 2026
+
+Desenvolvido por Italo Ismailey G Durante (RU 4471904)
+
 """
 
 from fastapi import FastAPI
