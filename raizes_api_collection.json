@@ -1,0 +1,135 @@
+{
+  "info": {
+    "_postman_id": "987a7638-cf17-4c0c-b121-63cd2daef83e",
+    "name": "Raizes do Nordeste - API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "56232458",
+    "_collection_link": "https://go.postman.co/collection/56232458-987a7638-cf17-4c0c-b121-63cd2daef83e?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "01 - Auth",
+      "item": [
+        {
+          "name": "Login Valido",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "Login - Senha Errada",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "02 - Pedidos",
+      "item": [
+        {
+          "name": "Criar Pedido - Totem",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "Criar Pedido - Totem Invalido",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "Criar Pedido - APP",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "Criar Pedido - Sem Token JWT",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "Criar Pedido - Canal invalido/Ausente",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "Criar Pedido - Estoque Insuficiente",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "03 - Pagamentos & Fluxo Critico",
+      "item": [
+        {
+          "name": "Simulacao Pagamento - Aprovado",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "Simulacao Pagamento - Recusado",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "04 - Relatorio",
+      "item": [
+        {
+          "name": "LIstar Todos os Pedidos",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "Listar Pedidos Filtrados por Canal",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "Listar Pedido Inexistente",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
