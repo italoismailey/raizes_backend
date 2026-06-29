@@ -14,12 +14,12 @@ from app.config import settings
 app = FastAPI(
     title="Raízes do Nordeste — API",
     version="1.0.0",
-    description="""API Back-end da rede de lanchonetes Raízes do Nordeste.
+    description="""API Back-end da rede Raízes do Nordeste.
 
-Gerencia pedidos multicanal (App, Totem, Balcão, Pickup), controle de estoque por unidade, 
-programa de fidelidade e integração simulada com gateway de pagamento.
+Gerencia pedidos vindos de múltiplos canais (App, Totem, Balcão, Pickup), 
+controle de estoque por unidade, fidelidade e pagamento simulado.
 
-Desenvolvido como parte da Atividade Prática da Trilha Back-End. """,
+Projeto desenvolvido para a Atividade Prática da Trilha Back-End - UNINTER 2026.""",
     contact={
         "name": "Italo Ismailey",
         "email": "italoismailey@gmail.com",
