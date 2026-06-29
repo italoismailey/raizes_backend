@@ -96,7 +96,7 @@ class TimestampMixin:
 # Usuario
 # ---------------------------------------------------------------------------
 
-class Usuario(Base):
+class Usuario(TimestampMixin, Base):  # <-- Adicionado TimestampMixin aqui para herdar criado_em
     __tablename__ = "usuarios"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -104,6 +104,9 @@ class Usuario(Base):
     email = Column(String, unique=True, nullable=False, index=True)
     senha_hash = Column(String, nullable=False)
     perfil = Column(Enum(PerfilUsuario), nullable=False, default=PerfilUsuario.CLIENTE)
+    
+    # Campo que a rota de autenticação e os schemas exigem:
+    ativo = Column(Boolean, default=True, nullable=False)  # <-- Adicionado o campo ativo aqui!
     
     # LGPD - Consentimentos explícitos
     consentimento_fidelidade = Column(Boolean, default=False, nullable=False)
@@ -113,9 +116,10 @@ class Usuario(Base):
     data_cadastro = Column(DateTime, default=datetime.utcnow)
     data_atualizacao = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
-    # ... resto da classe
-
-
+    # 🔗 RELACIONAMENTOS (Mantendo o mapeamento que corrigimos antes)
+    pedidos = relationship("Pedido", back_populates="cliente")
+    pontos_fidelidade = relationship("PontosFidelidade", back_populates="usuario", uselist=False)
+    historico_fidelidade = relationship("HistoricoFidelidade", back_populates="usuario")
 # ---------------------------------------------------------------------------
 # Unidade
 # ---------------------------------------------------------------------------
