@@ -1,5 +1,5 @@
 """
-Módulo de Gerenciamento de Configurações e Variáveis de Ambiente.
+Gerenciamento de Configurações e Variáveis de Ambiente.
 Centraliza as propriedades de runtime da API Raízes do Nordeste utilizando o padrão de Singleton.
 Autor: Italo Ismailey G Durante | RU: 4471904 | UNINTER 2026
 """
