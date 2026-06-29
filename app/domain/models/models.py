@@ -96,27 +96,24 @@ class TimestampMixin:
 # Usuario
 # ---------------------------------------------------------------------------
 
-class Usuario(TimestampMixin, Base):
+class Usuario(Base):
     __tablename__ = "usuarios"
 
-    id      = Column(Integer, primary_key=True, index=True)
-    nome    = Column(String(120), nullable=False)
-    email   = Column(String(180), unique=True, nullable=False, index=True)
-    senha_hash = Column(String(256), nullable=False)  # bcrypt — nunca texto puro
+    id = Column(Integer, primary_key=True, index=True)
+    nome = Column(String, nullable=False)
+    email = Column(String, unique=True, nullable=False, index=True)
+    senha_hash = Column(String, nullable=False)
+    perfil = Column(Enum(PerfilUsuario), nullable=False, default=PerfilUsuario.CLIENTE)
+    
+    # LGPD - Consentimentos explícitos
+    consentimento_fidelidade = Column(Boolean, default=False, nullable=False)
+    consentimento_marketing = Column(Boolean, default=False, nullable=False)
+    
+    # Auditoria LGPD
+    data_cadastro = Column(DateTime, default=datetime.utcnow)
+    data_atualizacao = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
-    perfil  = Column(Enum(PerfilUsuario), nullable=False, default=PerfilUsuario.CLIENTE)
-    ativo   = Column(Boolean, default=True, nullable=False)
-
-    # Campos de consentimento exigidos pela LGPD
-    consentimento_fidelidade  = Column(Boolean, default=False, nullable=False)
-    consentimento_marketing   = Column(Boolean, default=False, nullable=False)
-
-    pedidos              = relationship("Pedido", back_populates="cliente")
-    pontos_fidelidade    = relationship("PontosFidelidade", back_populates="usuario", uselist=False)
-    historico_fidelidade = relationship("HistoricoFidelidade", back_populates="usuario")
-
-    def __repr__(self):
-        return f"<Usuario id={self.id} email={self.email} perfil={self.perfil}>"
+    # ... resto da classe
 
 
 # ---------------------------------------------------------------------------
